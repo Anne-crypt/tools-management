@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* css-tools-disable unknownAtRules */
+@theme {
+  /* Cela écrase la police sans-serif par défaut de Tailwind */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
