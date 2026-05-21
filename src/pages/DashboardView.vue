@@ -63,15 +63,45 @@
           >
             <th class="px-6 py-4">Tool</th>
             <th class="px-6 py-4">Department</th>
-            <th class="px-6 py-4">Users</th>
-            <th class="px-6 py-4">Monthly Cost</th>
-            <th class="px-6 py-4 text-right">Status</th>
+            <th class="px-6 py-4">
+              <button
+                class="inline-flex items-center gap-1 select-none hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                @click="toggleSort('users')"
+              >
+                Users
+                <span class="text-sm">
+                  {{ sortColumn === 'users' ? (sortDirection === 'desc' ? '↓' : '↑') : '↕' }}
+                </span>
+              </button>
+            </th>
+            <th class="px-6 py-4">
+              <button
+                class="inline-flex items-center gap-1 select-none hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                @click="toggleSort('cost')"
+              >
+                Monthly Cost
+                <span class="text-sm">
+                  {{ sortColumn === 'cost' ? (sortDirection === 'desc' ? '↓' : '↑') : '↕' }}
+                </span>
+              </button>
+            </th>
+            <th class="px-6 py-4 text-right">
+              <button
+                class="inline-flex items-center gap-1 select-none hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                @click="toggleSort('status')"
+              >
+                Status
+                <span class="text-sm">
+                  {{ sortColumn === 'status' ? (sortDirection === 'desc' ? '↓' : '↑') : '↕' }}
+                </span>
+              </button>
+            </th>
           </tr>
         </thead>
 
         <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
           <tr
-            v-for="tool in recentTools"
+            v-for="tool in sortedRecentTools"
             :key="tool.id"
             class="relative cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors duration-150"
             @click="toggleRow(tool.id)"
@@ -90,7 +120,7 @@
             </td>
             <td class="px-6 py-4">
               <span
-                class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-slate-100 text-slate-800 dark:bg-black dark:text-slate-300"
+                class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-slate-800 dark:text-slate-300"
               >
                 {{ tool.category }}
               </span>
@@ -117,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useTools } from "../hooks/useTools";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { CalendarDaysIcon } from "lucide-vue-next";
@@ -136,9 +166,34 @@ const {
 } = useTools();
 const { fetchAnalytics } = useAnalytics();
 const selectedToolId = ref<number | null>(null)
+const sortColumn = ref<'users' | 'cost' | 'status'>('users')
+const sortDirection = ref<'asc' | 'desc'>('desc')
+
+const sortedRecentTools = computed(() => {
+  return [...recentTools.value].sort((firstTool, secondTool) => {
+    const comparison =
+      sortColumn.value === 'users'
+        ? firstTool.usersCount - secondTool.usersCount
+        : sortColumn.value === 'cost'
+          ? firstTool.monthlyCost - secondTool.monthlyCost
+          : firstTool.status.localeCompare(secondTool.status)
+
+    return sortDirection.value === 'asc' ? comparison : -comparison
+  })
+})
 
 function toggleRow(toolId: number) {
   selectedToolId.value = selectedToolId.value === toolId ? null : toolId
+}
+
+function toggleSort(column: 'users' | 'cost' | 'status') {
+  if (sortColumn.value === column) {
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+    return
+  }
+
+  sortColumn.value = column
+  sortDirection.value = 'desc'
 }
 
 function handleView(toolId: number) {
