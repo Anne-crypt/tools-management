@@ -10,6 +10,7 @@ const router = createRouter({
       meta: {
         title: "Internal Tools Dashboard",
         subtitle: "Monitor and manage your organization's software tools and expenses",
+        searchPlaceholder: "Search tools...",
       },
     },
     {
@@ -19,6 +20,7 @@ const router = createRouter({
       meta: {
         title: "Tools Catalog",
         subtitle: "Browse, filter, and maintain your software tool inventory",
+        searchPlaceholder: "Search in tools catalog...",
       },
     },
     {
@@ -28,6 +30,7 @@ const router = createRouter({
       meta: {
         title: "Analytics Dashboard",
         subtitle: "Track trends, usage, and spending performance over time",
+        searchPlaceholder: "Search metrics, insights...",
       },
     },
     {
@@ -37,6 +40,7 @@ const router = createRouter({
       meta: {
         title: "Page Not Found",
         subtitle: "The page you requested does not exist or has been moved",
+        searchPlaceholder: "Search in the dashboard...",
       },
     }
   ],

@@ -3,12 +3,20 @@
     <SearchIcon class="w-5 h-5 text-slate-500 dark:text-slate-400" />
     <input
       type="text"
-      placeholder="Search tools..."
+      :placeholder="placeholder"
       class="flex-1 bg-transparent text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 outline-none"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { SearchIcon } from 'lucide-vue-next'
+
+const route = useRoute()
+
+const placeholder = computed(
+  () => (route.meta.searchPlaceholder as string) ?? 'Search...'
+)
 </script>
