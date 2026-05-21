@@ -3,7 +3,7 @@
     <div class="flex h-full items-center">
 
       <div class="flex items-center gap-2">
-        <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-violet-500 text-white">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-linear-to-r from-blue-500 to-violet-500 text-white">
           <ZapIcon class="h-3.5 w-3.5" />
         </span>
         <h1 class="text-lg font-bold text-slate-950 dark:text-white">TechCorp</h1>

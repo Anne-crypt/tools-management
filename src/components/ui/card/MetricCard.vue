@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-5 rounded-2xl bg-white dark:bg-black border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-200"
+    class="p-5 rounded-2xl bg-white dark:bg-black border border-slate-100 dark:border-slate-800 shadow-sm transition-transform duration-200 hover:scale-[1.01]"
   >
     <div class="flex justify-between items-start mb-4">
       <h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">
@@ -67,7 +67,7 @@ const iconConfig = computed(() => {
       }
     default:
       return {
-        icon: GitBranchIcon,
+        icon: ArrowUpRightIcon,
         bgClass: 'bg-gradient-to-r from-slate-400 to-slate-500',
       }
   }

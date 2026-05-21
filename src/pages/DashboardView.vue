@@ -73,7 +73,7 @@
           <tr
             v-for="tool in recentTools"
             :key="tool.id"
-            class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors duration-150"
+            class="hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors duration-150"
           >
             <td class="px-6 py-4">
               <div class="flex items-center gap-3">
