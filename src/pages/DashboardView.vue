@@ -164,6 +164,7 @@ const {
   fetchRecentTools,
   fetchActiveTools,
 } = useTools();
+
 const { fetchAnalytics } = useAnalytics();
 const selectedToolId = ref<number | null>(null)
 const sortColumn = ref<'users' | 'cost' | 'status'>('users')

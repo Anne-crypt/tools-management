@@ -41,10 +41,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import NavButton from '../ui/button/NavButton.vue';
-import SearchInput from '../ui/header/SearchInput.vue';
+import SearchInput from '../ui/headerAssets/SearchInput.vue';
 import ThemeToggle from '../ThemeToggle.vue';
-import NotifIcon from '../ui/header/NotifIcon.vue';
-import ParamIcon from '../ui/header/ParamIcon.vue';
+import NotifIcon from '../ui/headerAssets/NotifIcon.vue';
+import ParamIcon from '../ui/headerAssets/ParamIcon.vue';
 import { ZapIcon } from 'lucide-vue-next';
 
 const activeNav = ref('Dashboard');

@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4">
+  <div class="mt-4 mb-4">
     <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">
       <slot name="title">{{ title }}</slot>
     </h1>

@@ -1,14 +1,20 @@
-// 1. L'interface pour le reste de l'application
 export interface Tool {
   id: number;
   name: string;
+  description: string;
+  vendor?: string;
   category: string;
   monthlyCost: number;
-  status: "Active" | "Expiring" | "Unused";
-  usersCount: number;
-  iconUrl: string;
+  previousMonthCost?: number;
   ownerDepartment: string;
+  status: "Active" | "Expiring" | "Unused";
+  websiteUrl?: string;
+  activeUsersCount: number;
+  iconUrl: string;
+  createdAt: string;
+  updatedAt: string;
 }
+
 
 function normalizeStatus(rawStatus: unknown): Tool["status"] {
   if (typeof rawStatus !== "string") {
@@ -28,11 +34,17 @@ export function mapApiToolToTool(apiData: any): Tool {
   return {
     id: apiData.id,
     name: apiData.name,
+    description: apiData.description,
+    vendor: apiData.vendor,
     category: apiData.category,
     monthlyCost: apiData.monthly_cost,
-    status: normalizeStatus(apiData?.status),
-    usersCount: apiData.active_users_count,
-    iconUrl: apiData.icon_url,
+    previousMonthCost: apiData.previous_month_cost,
     ownerDepartment: apiData.owner_department,
+    status: normalizeStatus(apiData?.status),
+    websiteUrl: apiData.website_url,
+    activeUsersCount: apiData.active_users_count,
+    iconUrl: apiData.icon_url,
+    createdAt: apiData.created_at,
+    updatedAt: apiData.updated_at,
   };
 }
