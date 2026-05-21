@@ -2,11 +2,16 @@
   <div class="p-6">
     <FiltersCard
       :departments="departments"
+      :categories="uniqueCategories"
       @department-change="handleDepartmentChange"
       @status-change="handleStatusChange"
       @cost-range-change="handleCostRangeChange"
+      @category-change="handleCategoryChange"
     />
-    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <div v-if="displayedTools.length === 0" class="mt-6 text-center py-12">
+      <p class="text-lg text-slate-500 dark:text-slate-400">Aucun tool trouvé</p>
+    </div>
+    <div v-else class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
       <ToolCard
         v-for="tool in displayedTools"
         :key="tool.id"
@@ -36,6 +41,12 @@ const { departments, fetchDepartments } = useDepartments();
 const selectedDepartmentId = ref<number | string | "">("");
 const selectedStatus = ref<Tool["status"] | "">("");
 const costRange = ref<[number, number]>([0, 10000]);
+const selectedCategory = ref<string>("");
+
+const uniqueCategories = computed(() => {
+  const categories = new Set(tools.value.map((tool) => tool.category));
+  return Array.from(categories).sort();
+});
 
 const displayedTools = computed(() => {
   let baseTools = tools.value;
@@ -62,6 +73,13 @@ const displayedTools = computed(() => {
     (tool) => tool.monthlyCost >= costRange.value[0] && tool.monthlyCost <= costRange.value[1],
   );
 
+  // Filter by category
+  if (selectedCategory.value !== "") {
+    baseTools = baseTools.filter((tool) => tool.category === selectedCategory.value);
+  }
+
+
+
   return baseTools;
 });
 
@@ -75,6 +93,10 @@ function handleStatusChange(status: Tool["status"] | "") {
 
 function handleCostRangeChange(range: [number, number]) {
   costRange.value = range;
+}
+
+function handleCategoryChange(category: string) {
+  selectedCategory.value = category;
 }
 
 onMounted(async () => {

@@ -1,7 +1,7 @@
 <template>
   <div class="p-6">
     <h2 class="text-xl font-semibold mb-4">Filters</h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
       <div>
         <label
           for="department"
@@ -74,6 +74,26 @@
           </div>
         </div>
       </div>
+<div>
+        <label
+          for="category"
+          class="block text-sm font-medium text-slate-700 mb-1"
+        >
+          Category
+        </label>
+        <select
+          id="category"
+          v-model="selectedCategory"
+          name="category"
+          class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          @change="emitCategory"
+        >
+          <option value="">All Categories</option>
+          <option v-for="cat in categories" :key="cat" :value="cat">
+            {{ cat }}
+          </option>
+        </select>
+      </div>
       <!-- Additional filters can be added here -->
     </div>
   </div>
@@ -87,17 +107,20 @@ import type { Tool } from "../../../interfaces/tools";
 
 const props = defineProps<{
   departments: DepartmentOption[];
+  categories: string[];
 }>();
 
 const emit = defineEmits<{
   (e: "department-change", value: number | string | ""): void;
   (e: "status-change", value: Tool["status"] | ""): void;
   (e: "cost-range-change", value: [number, number]): void;
+  (e: "category-change", value: string): void;
 }>();
 
 const selectedDepartment = ref<number | string | "">("");
 const selectedStatus = ref<Tool["status"] | "">("");
 const costRange = ref<[number, number]>([0, 10000]);
+const selectedCategory = ref<string>("");
 const statuses: Tool["status"][] = ["Active", "Expiring", "Unused"];
 
 function emitDepartment() {
@@ -111,5 +134,9 @@ function setStatus(status: Tool["status"] | "") {
 
 function emitCostRange() {
   emit("cost-range-change", costRange.value);
+}
+
+function emitCategory() {
+  emit("category-change", selectedCategory.value);
 }
 </script>
