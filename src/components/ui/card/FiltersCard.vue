@@ -1,6 +1,8 @@
 <template>
   <div class="p-6">
-    <h2 class="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Filters</h2>
+    <h2 class="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
+      Filters
+    </h2>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
       <div>
         <label
@@ -23,14 +25,19 @@
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Status</label>
+        <label
+          class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+          >Status</label
+        >
         <div class="flex flex-wrap items-center gap-2">
           <button
             type="button"
             class="rounded-full border px-3 py-1 text-xs font-medium transition-colors"
-            :class="selectedStatus === ''
-              ? 'border-slate-900 dark:border-slate-300 bg-slate-900 dark:bg-black text-white'
-              : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-black text-slate-700 dark:text-slate-300 hover:border-slate-500 dark:hover:border-slate-500'"
+            :class="
+              selectedStatus === ''
+                ? 'border-slate-900 dark:border-slate-300 bg-slate-900 dark:bg-black text-white'
+                : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-black text-slate-700 dark:text-slate-300 hover:border-slate-500 dark:hover:border-slate-500'
+            "
             @click="setStatus('')"
           >
             All Statuses
@@ -40,15 +47,22 @@
             :key="status"
             type="button"
             class="rounded-full ring-offset-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
-            :class="selectedStatus === status ? 'ring-2 ring-slate-500' : 'opacity-90 hover:opacity-100'"
+            :class="
+              selectedStatus === status
+                ? 'ring-2 ring-slate-500'
+                : 'opacity-90 hover:opacity-100'
+            "
             @click="setStatus(status)"
           >
             <ToolStatus :status="status" />
           </button>
         </div>
       </div>
-<div>
-        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Monthly Cost</label>
+      <div>
+        <label
+          class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+          >Monthly Cost</label
+        >
         <div class="space-y-2">
           <input
             v-model.number="costRange[0]"
@@ -68,13 +82,15 @@
             class="w-full accent-slate-700"
             @change="emitCostRange"
           />
-          <div class="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+          <div
+            class="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400"
+          >
             <span>€{{ costRange[0] }}</span>
             <span>€{{ costRange[1] }}</span>
           </div>
         </div>
       </div>
-<div>
+      <div>
         <label
           for="category"
           class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"

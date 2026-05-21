@@ -2,41 +2,41 @@
   <div
     ref="dropdownRef"
     v-if="open"
-    class="absolute right-4 top-full z-20 mt-2 w-40 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900"
+    class="absolute z-20 mt-2 w-40 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900"
     @click.stop
   >
     <button
       class="flex w-full items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
-      @click="$emit('view')"
+      @click="$emit('enable')"
     >
-      <EyeIcon class="h-4 w-4" />
-      View
+      <CircleCheckIcon class="h-4 w-4" />
+      Enable
     </button>
     <button
       class="flex w-full items-center gap-2 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800"
-      @click="$emit('edit')"
+      @click="$emit('disable')"
     >
-      <PencilIcon class="h-4 w-4" />
-      Edit
+      <CircleMinusIcon class="h-4 w-4" />
+      Disable
     </button>
     <button
-      class="flex w-full items-center gap-2 px-4 py-3 text-sm text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
-      @click="$emit('delete')"
+      class="flex w-full items-center gap-2 px-4 py-3 text-sm text-amber-600 hover:bg-amber-50 dark:text-amber-400 dark:hover:bg-amber-950/40"
+      @click="$emit('archive')"
     >
-      <Trash2Icon class="h-4 w-4" />
-      Delete
+      <ArchiveIcon class="h-4 w-4" />
+      Archive
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
-import { EyeIcon, PencilIcon, Trash2Icon } from "lucide-vue-next";
+import { ArchiveIcon, CircleCheckIcon, CircleMinusIcon } from "lucide-vue-next";
 
 const emit = defineEmits<{
-  view: [];
-  edit: [];
-  delete: [];
+  enable: [];
+  disable: [];
+  archive: [];
   close: [];
 }>();
 
@@ -62,7 +62,6 @@ watch(
       document.addEventListener("pointerdown", handlePointerDown);
       return;
     }
-
     document.removeEventListener("pointerdown", handlePointerDown);
   },
 );

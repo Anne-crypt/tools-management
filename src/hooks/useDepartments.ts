@@ -81,8 +81,6 @@ export function useDepartments() {
     }
   }
 
-
-
   return {
     departments,
     loading,

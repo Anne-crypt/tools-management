@@ -139,6 +139,7 @@
                 @view="handleView(tool.id)"
                 @edit="handleEdit(tool.id)"
                 @delete="handleDelete(tool.id)"
+                @close="selectedToolId = null"
               />
             </td>
           </tr>
@@ -157,6 +158,7 @@ import { CalendarDaysIcon } from "lucide-vue-next";
 import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import MetricCard from "../components/ui/card/MetricCard.vue";
 import ToolRowActionsDropdown from "../components/ui/table/ToolRowActionsDropdown.vue";
+import router from "../router";
 
 // 1. On extrait directement ce dont on a besoin en déstructurant le hook
 const {
@@ -202,10 +204,12 @@ function toggleSort(column: "users" | "cost" | "status") {
 
 function handleView(toolId: number) {
   console.log("view", toolId);
+  router.push({ name: "tool-details", params: { id: toolId } });
 }
 
 function handleEdit(toolId: number) {
   console.log("edit", toolId);
+  router.push({ name: "edit-tool", params: { id: toolId } });
 }
 
 function handleDelete(toolId: number) {

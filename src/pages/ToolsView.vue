@@ -6,6 +6,27 @@
     >
       Add New Tool
     </router-link>
+    <button
+      class="mb-6 ml-4 inline-block rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:border-slate-700 dark:bg-black dark:text-white dark:hover:bg-slate-800"
+      @click="handleMultiSelect"
+      >
+      Select Multiple Tools
+    </button>
+    <div v-if="selectedToolIds.length > 0" class="relative mb-6 ml-4 inline-block">
+      <button
+        class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:border-slate-700 dark:bg-black dark:text-white dark:hover:bg-slate-800"
+        @click="bulkActionsOpen = !bulkActionsOpen"
+      >
+        Actions ({{ selectedToolIds.length }} sélectionné{{ selectedToolIds.length > 1 ? 's' : '' }})
+      </button>
+      <ToolBulkActionsDropdown
+        :open="bulkActionsOpen"
+        @enable="handleBulkEnable"
+        @disable="handleBulkDisable"
+        @archive="handleBulkArchive"
+        @close="bulkActionsOpen = false"
+      />
+    </div>
     <FiltersCard
       :departments="departments"
       :categories="uniqueCategories"
@@ -30,7 +51,9 @@
         :status="tool.status"
         :activeUsersCount="tool.activeUsersCount"
         :monthlyCost="tool.monthlyCost"
+        :multiSelectMode="multiSelectMode"
         @select="handleToolSelect"
+        @toggle-selection="handleToggleSelection"
       />
     </div>
   </div>
@@ -43,6 +66,7 @@ import { useTools } from "../hooks/useTools";
 import ToolCard from "../components/ui/card/ToolCard.vue";
 import { useDepartments } from "../hooks/useDepartments";
 import FiltersCard from "../components/ui/card/FiltersCard.vue";
+import ToolBulkActionsDropdown from "../components/ui/table/ToolBulkActionsDropdown.vue";
 import type { Tool } from "../interfaces/tools";
 
 const router = useRouter();
@@ -53,6 +77,9 @@ const selectedStatus = ref<Tool["status"] | "">("");
 const costRange = ref<[number, number]>([0, 10000]);
 const selectedCategory = ref<string>("");
 const selectedToolId = ref<number | null>(null);
+const multiSelectMode = ref(false);
+const selectedToolIds = ref<number[]>([]);
+const bulkActionsOpen = ref(false);
 
 const uniqueCategories = computed(() => {
   const categories = new Set(tools.value.map((tool) => tool.category));
@@ -114,6 +141,46 @@ function handleToolSelect(toolId: number) {
   selectedToolId.value = toolId;
   console.log("Selected tool:", toolId);
   router.push(`/tools/${toolId}`);
+}
+
+function handleMultiSelect() {
+  console.log("Multi-select mode activated");
+  multiSelectMode.value = !multiSelectMode.value;
+  if (!multiSelectMode.value) {
+    selectedToolIds.value = [];
+    bulkActionsOpen.value = false;
+  }
+}
+
+function handleToggleSelection(toolId: number) {
+  // Vérifie si le tool est déjà dans la liste
+  console.log("######", toolId);
+  const isSelected = selectedToolIds.value.includes(toolId);
+
+  if (isSelected) {
+    // Si déjà sélectionné → on le retire
+    selectedToolIds.value = selectedToolIds.value.filter((id) => id !== toolId);
+  } else {
+    // Si pas encore sélectionné → on l'ajoute
+    selectedToolIds.value.push(toolId);
+  }
+
+  console.log("Selected tools:", selectedToolIds.value);
+}
+
+function handleBulkEnable() {
+  console.log("Enable tools:", selectedToolIds.value);
+  // TODO: API call
+}
+
+function handleBulkDisable() {
+  console.log("Disable tools:", selectedToolIds.value);
+  // TODO: API call
+}
+
+function handleBulkArchive() {
+  console.log("Archive tools:", selectedToolIds.value);
+  // TODO: API call
 }
 
 onMounted(async () => {

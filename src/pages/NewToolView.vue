@@ -1,7 +1,11 @@
 <template>
-	<div class="p-6">
-		<ToolForm title="New Tool" submit-label="Save Tool" @submit="handleSubmit" />
-	</div>
+  <div class="p-6">
+    <ToolForm
+      title="New Tool"
+      submit-label="Save Tool"
+      @submit="handleSubmit"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -11,9 +15,9 @@ import ToolForm from "../components/toolManagement/ToolForm.vue";
 const router = useRouter();
 
 function handleSubmit(form: object) {
-	console.log("New tool form payload:", form);
-	// TODO: Implement API call to create a new tool using the form data
-	goBack();
+  console.log("New tool form payload:", form);
+  // TODO: Implement API call to create a new tool using the form data
+  goBack();
 }
 
 function goBack() {
