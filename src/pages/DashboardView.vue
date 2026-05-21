@@ -1,7 +1,5 @@
 <template>
   <div class="p-6 max-w-4xl mx-auto">
-
-
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <MetricCard
         title="Monthly Budget"
@@ -11,28 +9,13 @@
         trendUnit="%"
       />
 
-      <MetricCard
-        title="Active Tools"
-        value="147"
-        :trend="12"
-        trendUnit="%"
-      >
+      <MetricCard title="Active Tools" value="147" :trend="12" trendUnit="%">
         <!-- :value="activeToolsCount" -->
       </MetricCard>
 
-      <MetricCard
-        title="Departments"
-        value="8"
-        :trend="2"
-        trendUnit="%"
-      />
+      <MetricCard title="Departments" value="8" :trend="2" trendUnit="%" />
 
-      <MetricCard
-        title="Cost/User"
-        value="€156"
-        :trend="10"
-        trendUnit="%"
-      />
+      <MetricCard title="Cost/User" value="€156" :trend="10" trendUnit="%" />
     </div>
 
     <div v-if="loading" class="text-blue-600 font-medium">
@@ -44,20 +27,22 @@
     >
       <table class="w-full text-left border-collapse">
         <thead>
-            <tr>
-                <th
-                    colspan="5"
-                  class="px-6 py-4 text-lg font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-black"
+          <tr>
+            <th
+              colspan="5"
+              class="px-6 py-4 text-lg font-semibold text-slate-900 dark:text-white bg-slate-50 dark:bg-black"
+            >
+              <div class="flex items-center justify-between">
+                <span>Recent Tools</span>
+                <span
+                  class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400"
                 >
-                    <div class="flex items-center justify-between">
-                      <span>Recent Tools</span>
-                      <span class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-                        <CalendarDaysIcon class="w-4 h-4" />
-                        Last 30 days
-                      </span>
-                    </div>
-                </th>
-            </tr>
+                  <CalendarDaysIcon class="w-4 h-4" />
+                  Last 30 days
+                </span>
+              </div>
+            </th>
+          </tr>
           <tr
             class="border-b border-slate-100 bg-slate-50/70 text-xs font-semibold tracking-wider text-slate-500 dark:border-slate-800 dark:bg-black dark:text-slate-400"
           >
@@ -70,7 +55,13 @@
               >
                 Users
                 <span class="text-sm">
-                  {{ sortColumn === 'users' ? (sortDirection === 'desc' ? '↓' : '↑') : '↕' }}
+                  {{
+                    sortColumn === "users"
+                      ? sortDirection === "desc"
+                        ? "↓"
+                        : "↑"
+                      : "↕"
+                  }}
                 </span>
               </button>
             </th>
@@ -81,7 +72,13 @@
               >
                 Monthly Cost
                 <span class="text-sm">
-                  {{ sortColumn === 'cost' ? (sortDirection === 'desc' ? '↓' : '↑') : '↕' }}
+                  {{
+                    sortColumn === "cost"
+                      ? sortDirection === "desc"
+                        ? "↓"
+                        : "↑"
+                      : "↕"
+                  }}
                 </span>
               </button>
             </th>
@@ -92,7 +89,13 @@
               >
                 Status
                 <span class="text-sm">
-                  {{ sortColumn === 'status' ? (sortDirection === 'desc' ? '↓' : '↑') : '↕' }}
+                  {{
+                    sortColumn === "status"
+                      ? sortDirection === "desc"
+                        ? "↓"
+                        : "↑"
+                      : "↕"
+                  }}
                 </span>
               </button>
             </th>
@@ -166,47 +169,47 @@ const {
 } = useTools();
 
 const { fetchAnalytics } = useAnalytics();
-const selectedToolId = ref<number | null>(null)
-const sortColumn = ref<'users' | 'cost' | 'status'>('users')
-const sortDirection = ref<'asc' | 'desc'>('desc')
+const selectedToolId = ref<number | null>(null);
+const sortColumn = ref<"users" | "cost" | "status">("users");
+const sortDirection = ref<"asc" | "desc">("desc");
 
 const sortedRecentTools = computed(() => {
   return [...recentTools.value].sort((firstTool, secondTool) => {
     const comparison =
-      sortColumn.value === 'users'
+      sortColumn.value === "users"
         ? firstTool.usersCount - secondTool.usersCount
-        : sortColumn.value === 'cost'
+        : sortColumn.value === "cost"
           ? firstTool.monthlyCost - secondTool.monthlyCost
-          : firstTool.status.localeCompare(secondTool.status)
+          : firstTool.status.localeCompare(secondTool.status);
 
-    return sortDirection.value === 'asc' ? comparison : -comparison
-  })
-})
+    return sortDirection.value === "asc" ? comparison : -comparison;
+  });
+});
 
 function toggleRow(toolId: number) {
-  selectedToolId.value = selectedToolId.value === toolId ? null : toolId
+  selectedToolId.value = selectedToolId.value === toolId ? null : toolId;
 }
 
-function toggleSort(column: 'users' | 'cost' | 'status') {
+function toggleSort(column: "users" | "cost" | "status") {
   if (sortColumn.value === column) {
-    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
-    return
+    sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
+    return;
   }
 
-  sortColumn.value = column
-  sortDirection.value = 'desc'
+  sortColumn.value = column;
+  sortDirection.value = "desc";
 }
 
 function handleView(toolId: number) {
-  console.log('view', toolId)
+  console.log("view", toolId);
 }
 
 function handleEdit(toolId: number) {
-  console.log('edit', toolId)
+  console.log("edit", toolId);
 }
 
 function handleDelete(toolId: number) {
-  console.log('delete', toolId)
+  console.log("delete", toolId);
 }
 
 // 2. On lance l'appel au chargement

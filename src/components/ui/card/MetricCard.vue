@@ -16,7 +16,10 @@
       <span class="text-2xl font-bold text-slate-900 dark:text-white">{{
         value
       }}</span>
-      <span v-if="subValue" class="text-2xl text-slate-400/70 dark:text-slate-500">
+      <span
+        v-if="subValue"
+        class="text-2xl text-slate-400/70 dark:text-slate-500"
+      >
         {{ subValue }}
       </span>
     </div>
@@ -26,13 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
 import {
   ArrowUpRightIcon,
   Building2Icon,
   UsersIcon,
   WrenchIcon,
-} from 'lucide-vue-next'
+} from "lucide-vue-next";
 import TrendBadge from "../badge/TrendBadge.vue";
 
 const props = defineProps<{
@@ -45,31 +48,31 @@ const props = defineProps<{
 
 const iconConfig = computed(() => {
   switch (props.title) {
-    case 'Monthly Budget':
+    case "Monthly Budget":
       return {
         icon: ArrowUpRightIcon,
-        bgClass: 'bg-gradient-to-r from-emerald-400 to-green-500',
-      }
-    case 'Active Tools':
+        bgClass: "bg-gradient-to-r from-emerald-400 to-green-500",
+      };
+    case "Active Tools":
       return {
         icon: WrenchIcon,
-        bgClass: 'bg-gradient-to-r from-blue-500 to-cyan-500',
-      }
-    case 'Departments':
+        bgClass: "bg-gradient-to-r from-blue-500 to-cyan-500",
+      };
+    case "Departments":
       return {
         icon: Building2Icon,
-        bgClass: 'bg-gradient-to-r from-orange-400 to-amber-500',
-      }
-    case 'Cost/User':
+        bgClass: "bg-gradient-to-r from-orange-400 to-amber-500",
+      };
+    case "Cost/User":
       return {
         icon: UsersIcon,
-        bgClass: 'bg-gradient-to-r from-rose-500 to-red-600',
-      }
+        bgClass: "bg-gradient-to-r from-rose-500 to-red-600",
+      };
     default:
       return {
         icon: ArrowUpRightIcon,
-        bgClass: 'bg-gradient-to-r from-slate-400 to-slate-500',
-      }
+        bgClass: "bg-gradient-to-r from-slate-400 to-slate-500",
+      };
   }
-})
+});
 </script>

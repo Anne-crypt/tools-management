@@ -17,7 +17,8 @@ withDefaults(
   }>(),
   {
     title: "Internal Tools Dashboard",
-    subtitle: "Monitor and manage your organization's software tools and expenses",
+    subtitle:
+      "Monitor and manage your organization's software tools and expenses",
   },
 );
 </script>

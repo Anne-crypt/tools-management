@@ -29,15 +29,15 @@
 </template>
 
 <script setup lang="ts">
-import { EyeIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next'
+import { EyeIcon, PencilIcon, Trash2Icon } from "lucide-vue-next";
 
 defineProps<{
-  open: boolean
-}>()
+  open: boolean;
+}>();
 
 defineEmits<{
-  view: []
-  edit: []
-  delete: []
-}>()
+  view: [];
+  edit: [];
+  delete: [];
+}>();
 </script>

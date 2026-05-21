@@ -1,12 +1,14 @@
 import { ref } from "vue";
 import { toolService } from "../api/api";
+import type { Tool } from "../interfaces/tools";
+import { mapApiToolToTool } from "../interfaces/tools";
 
 export interface DepartmentOption {
   id: number | string;
   name: string;
 }
 
-const toolsByDepartment = ref<any[]>([]);
+const toolsByDepartment = ref<Tool[]>([]);
 
 type DepartmentApiItem =
   | string
@@ -19,7 +21,10 @@ type DepartmentApiItem =
       value?: unknown;
     };
 
-function normalizeDepartment(dept: DepartmentApiItem, index: number): DepartmentOption | null {
+function normalizeDepartment(
+  dept: DepartmentApiItem,
+  index: number,
+): DepartmentOption | null {
   if (typeof dept === "string") {
     const name = dept.trim();
     if (!name) return null;
@@ -31,9 +36,13 @@ function normalizeDepartment(dept: DepartmentApiItem, index: number): Department
 
   if (dept && typeof dept === "object") {
     const idCandidate = dept.id ?? dept.department_id;
-    const nameCandidate = dept.name ?? dept.label ?? dept.department ?? dept.value;
+    const nameCandidate =
+      dept.name ?? dept.label ?? dept.department ?? dept.value;
 
-    if ((typeof idCandidate === "number" || typeof idCandidate === "string") && typeof nameCandidate === "string") {
+    if (
+      (typeof idCandidate === "number" || typeof idCandidate === "string") &&
+      typeof nameCandidate === "string"
+    ) {
       const name = nameCandidate.trim();
       if (!name) return null;
       return {
@@ -46,7 +55,9 @@ function normalizeDepartment(dept: DepartmentApiItem, index: number): Department
   return null;
 }
 
-function isDepartmentOption(dept: DepartmentOption | null): dept is DepartmentOption {
+function isDepartmentOption(
+  dept: DepartmentOption | null,
+): dept is DepartmentOption {
   return dept !== null;
 }
 
@@ -60,16 +71,16 @@ export function useDepartments() {
       const response = await toolService.getDepartments();
       if (Array.isArray(response.data)) {
         departments.value = response.data
-          .map((dept: DepartmentApiItem, index: number) => normalizeDepartment(dept, index))
+          .map((dept: DepartmentApiItem, index: number) =>
+            normalizeDepartment(dept, index),
+          )
           .filter(isDepartmentOption);
       } else {
         console.error("Données de départements invalides :", response.data);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Erreur lors du chargement des départements :", error);
-    }
-    finally {
+    } finally {
       loading.value = false;
     }
   }
@@ -78,13 +89,18 @@ export function useDepartments() {
     loading.value = true;
     try {
       const response = await toolService.getToolsByDepartment(departmentId);
-      toolsByDepartment.value = response.data;
-    }
-    catch (error) {
-      console.error(`Erreur lors du chargement des outils pour le département ${departmentId} :`, error);
+      if (Array.isArray(response.data)) {
+        toolsByDepartment.value = response.data.map((tool: any) => mapApiToolToTool(tool));
+      } else {
+        toolsByDepartment.value = [];
+      }
+    } catch (error) {
+      console.error(
+        `Erreur lors du chargement des outils pour le département ${departmentId} :`,
+        error,
+      );
       toolsByDepartment.value = [];
-    }
-    finally {
+    } finally {
       loading.value = false;
     }
   }
@@ -95,6 +111,5 @@ export function useDepartments() {
     loading,
     fetchDepartments,
     fetchToolsByDepartment,
-
   };
 }

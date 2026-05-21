@@ -10,10 +10,15 @@
           :alt="toolName"
           class="h-8 w-8 shrink-0 object-contain"
         />
-        <div v-else class="h-8 w-8 shrink-0 rounded-lg bg-slate-100 dark:bg-slate-800" />
+        <div
+          v-else
+          class="h-8 w-8 shrink-0 rounded-lg bg-slate-100 dark:bg-slate-800"
+        />
 
         <div class="min-w-0">
-          <h3 class="truncate text-sm font-semibold text-slate-900 dark:text-white">
+          <h3
+            class="truncate text-sm font-semibold text-slate-900 dark:text-white"
+          >
             {{ toolName }}
           </h3>
           <p class="text-xs text-slate-500 dark:text-slate-400">
@@ -41,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import ToolStatus from '../badge/ToolStatus.vue'
+import ToolStatus from "../badge/ToolStatus.vue";
 
 const {
   toolIcon,
@@ -52,12 +57,12 @@ const {
   activeUsersCount,
   monthlyCost,
 } = defineProps<{
-  toolIcon: string
-  toolName: string
-  description: string
-  category: string
-  status: 'Active' | 'Expiring' | 'Unused'
-  activeUsersCount: number
-  monthlyCost: number
-}>()
+  toolIcon: string;
+  toolName: string;
+  description: string;
+  category: string;
+  status: "Active" | "Expiring" | "Unused";
+  activeUsersCount: number;
+  monthlyCost: number;
+}>();
 </script>

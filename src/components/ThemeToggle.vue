@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { MoonIcon, SunIcon } from 'lucide-vue-next'
-import { useTheme } from '../hooks/useTheme'
+import { MoonIcon, SunIcon } from "lucide-vue-next";
+import { useTheme } from "../hooks/useTheme";
 
-const { isDark, toggleTheme } = useTheme()
+const { isDark, toggleTheme } = useTheme();
 </script>

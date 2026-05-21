@@ -15,7 +15,6 @@ export interface Tool {
   updatedAt: string;
 }
 
-
 function normalizeStatus(rawStatus: unknown): Tool["status"] {
   if (typeof rawStatus !== "string") {
     return "Unused";

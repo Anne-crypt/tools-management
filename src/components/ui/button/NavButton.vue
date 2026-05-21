@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink } from "vue-router";
 
 withDefaults(
   defineProps<{
