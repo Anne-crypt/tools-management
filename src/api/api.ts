@@ -37,6 +37,17 @@ export const toolService = {
       },
     });
   },
+  getDepartments() {
+    return api.get("/departments");
+  },
+
+  getToolsByDepartment(departmentId: number | string) {
+    return api.get("/users", {
+      params: {
+        department_id: departmentId,
+      },
+    });
+  },
 
   // 3. Récupérer les données analytiques globales du budget
   getBudgetAnalytics() {
