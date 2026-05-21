@@ -1,5 +1,11 @@
 <template>
   <div class="p-6">
+    <router-link
+      to="/tools/new"
+      class="mb-6 inline-block rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:border-slate-700 dark:bg-black dark:text-white dark:hover:bg-slate-800"
+    >
+      Add New Tool
+    </router-link>
     <FiltersCard
       :departments="departments"
       :categories="uniqueCategories"
@@ -16,6 +22,7 @@
         v-for="tool in displayedTools"
         :key="tool.id"
         class="h-full"
+        :toolId="tool.id"
         :toolIcon="tool.iconUrl"
         :toolName="tool.name"
         :description="tool.description"
@@ -23,6 +30,7 @@
         :status="tool.status"
         :activeUsersCount="tool.activeUsersCount"
         :monthlyCost="tool.monthlyCost"
+        @select="handleToolSelect"
       />
     </div>
   </div>
@@ -30,18 +38,21 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useTools } from "../hooks/useTools";
 import ToolCard from "../components/ui/card/ToolCard.vue";
 import { useDepartments } from "../hooks/useDepartments";
 import FiltersCard from "../components/ui/card/FiltersCard.vue";
 import type { Tool } from "../interfaces/tools";
 
+const router = useRouter();
 const { tools, fetchTools } = useTools();
 const { departments, fetchDepartments } = useDepartments();
 const selectedDepartmentId = ref<number | string | "">("");
 const selectedStatus = ref<Tool["status"] | "">("");
 const costRange = ref<[number, number]>([0, 10000]);
 const selectedCategory = ref<string>("");
+const selectedToolId = ref<number | null>(null);
 
 const uniqueCategories = computed(() => {
   const categories = new Set(tools.value.map((tool) => tool.category));
@@ -97,6 +108,12 @@ function handleCostRangeChange(range: [number, number]) {
 
 function handleCategoryChange(category: string) {
   selectedCategory.value = category;
+}
+
+function handleToolSelect(toolId: number) {
+  selectedToolId.value = toolId;
+  console.log("Selected tool:", toolId);
+  router.push(`/tools/${toolId}`);
 }
 
 onMounted(async () => {

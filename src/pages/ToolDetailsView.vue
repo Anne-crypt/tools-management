@@ -25,7 +25,16 @@
 						<p class="text-sm text-slate-500 dark:text-slate-400">{{ tool.category }}</p>
 					</div>
 				</div>
-				<ToolStatus :status="tool.status" />
+				<div class="flex items-center gap-2">
+					<button
+						type="button"
+						class="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+						@click="router.push({ name: 'edit-tool', params: { id: tool.id } })"
+					>
+						<PencilIcon class="h-4 w-4" />
+					</button>
+					<ToolStatus :status="tool.status" />
+				</div>
 			</div>
 
 			<p class="mb-6 text-sm text-slate-700 dark:text-slate-300">{{ tool.description }}</p>
@@ -79,13 +88,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { PencilIcon } from "lucide-vue-next";
 import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import { toolService } from "../api/api";
 import type { Tool } from "../interfaces/tools";
 import { mapApiToolToTool } from "../interfaces/tools";
 
 const route = useRoute();
+const router = useRouter();
 const tool = ref<Tool | null>(null);
 const loading = ref(false);
 const errorMessage = ref("");

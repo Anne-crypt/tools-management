@@ -1,11 +1,11 @@
 <template>
   <div class="p-6">
-    <h2 class="text-xl font-semibold mb-4">Filters</h2>
+    <h2 class="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Filters</h2>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
       <div>
         <label
           for="department"
-          class="block text-sm font-medium text-slate-700 mb-1"
+          class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
         >
           Department
         </label>
@@ -13,7 +13,7 @@
           id="department"
           v-model="selectedDepartment"
           name="department"
-          class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="mt-1 block w-full py-2 px-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-black text-slate-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           @change="emitDepartment"
         >
           <option value="">All Departments</option>
@@ -23,14 +23,14 @@
         </select>
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Status</label>
         <div class="flex flex-wrap items-center gap-2">
           <button
             type="button"
             class="rounded-full border px-3 py-1 text-xs font-medium transition-colors"
             :class="selectedStatus === ''
-              ? 'border-slate-900 bg-slate-900 text-white'
-              : 'border-slate-300 bg-white text-slate-700 hover:border-slate-500'"
+              ? 'border-slate-900 dark:border-slate-300 bg-slate-900 dark:bg-black text-white'
+              : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-black text-slate-700 dark:text-slate-300 hover:border-slate-500 dark:hover:border-slate-500'"
             @click="setStatus('')"
           >
             All Statuses
@@ -48,7 +48,7 @@
         </div>
       </div>
 <div>
-        <label class="block text-sm font-medium text-slate-700 mb-2">Monthly Cost</label>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Monthly Cost</label>
         <div class="space-y-2">
           <input
             v-model.number="costRange[0]"
@@ -68,7 +68,7 @@
             class="w-full accent-slate-700"
             @change="emitCostRange"
           />
-          <div class="flex items-center justify-between text-xs text-slate-600">
+          <div class="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
             <span>€{{ costRange[0] }}</span>
             <span>€{{ costRange[1] }}</span>
           </div>
@@ -77,7 +77,7 @@
 <div>
         <label
           for="category"
-          class="block text-sm font-medium text-slate-700 mb-1"
+          class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
         >
           Category
         </label>
@@ -85,7 +85,7 @@
           id="category"
           v-model="selectedCategory"
           name="category"
-          class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="mt-1 block w-full py-2 px-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-black text-slate-900 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           @change="emitCategory"
         >
           <option value="">All Categories</option>

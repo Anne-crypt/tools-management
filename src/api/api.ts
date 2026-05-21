@@ -11,6 +11,9 @@ export const toolService = {
   getTools() {
     return api.get("/tools");
   },
+  getToolById(id: number | string) {
+    return api.get(`/tools/${id}`);
+  },
   getActiveTools() {
     return api.get("/tools", {
       params: {
@@ -39,14 +42,6 @@ export const toolService = {
   },
   getDepartments() {
     return api.get("/departments");
-  },
-
-  getToolsByDepartment(departmentId: number | string) {
-    return api.get("/users", {
-      params: {
-        department_id: departmentId,
-      },
-    });
   },
 
   // 3. Récupérer les données analytiques globales du budget

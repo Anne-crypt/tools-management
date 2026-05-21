@@ -1,6 +1,7 @@
 <template>
   <div
-    class="p-5 rounded-2xl bg-white dark:bg-black border border-slate-100 dark:border-slate-800 shadow-sm transition-transform duration-200 hover:scale-[1.01]"
+    class="p-5 rounded-2xl bg-white dark:bg-black border border-slate-100 dark:border-slate-800 shadow-sm transition-transform duration-200 hover:scale-[1.01] cursor-pointer"
+    @click="selectTool"
   >
     <div class="mb-4 flex items-start justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
@@ -49,6 +50,7 @@
 import ToolStatus from "../badge/ToolStatus.vue";
 
 const {
+  toolId,
   toolIcon,
   toolName,
   description,
@@ -57,6 +59,7 @@ const {
   activeUsersCount,
   monthlyCost,
 } = defineProps<{
+  toolId: number;
   toolIcon: string;
   toolName: string;
   description: string;
@@ -65,4 +68,12 @@ const {
   activeUsersCount: number;
   monthlyCost: number;
 }>();
+
+const emit = defineEmits<{
+  (e: "select", toolId: number): void;
+}>();
+
+function selectTool() {
+  emit("select", toolId);
+}
 </script>

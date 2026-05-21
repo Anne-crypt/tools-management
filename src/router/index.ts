@@ -35,6 +35,36 @@ const router = createRouter({
       },
     },
     {
+      path: "/tools/:id",
+      name: "tool-details",
+      component: () => import("../pages/ToolDetailsView.vue"),
+      meta: {
+        title: "Tool Details",
+        subtitle: "View detailed information about a specific tool",
+        searchPlaceholder: "Search in tool details...",
+      },
+    },
+    {
+      path: "/tools/:id/edit",
+      name: "edit-tool",
+      component: () => import("../pages/EditToolView.vue"),
+      meta: {
+        title: "Edit Tool",
+        subtitle: "Modify tool information and settings",
+        searchPlaceholder: "Search in edit tool...",
+      },
+    },
+    {
+      path: "/tools/new",
+      name: "new-tool",
+      component: () => import("../pages/NewToolView.vue"),
+      meta: {
+        title: "Add New Tool",
+        subtitle: "Create a new tool entry in the catalog",
+        searchPlaceholder: "Search in add new tool...",
+      },
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "not-found",
       component: () => import("../pages/NotFoundView.vue"),
