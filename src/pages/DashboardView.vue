@@ -18,8 +18,12 @@
       <MetricCard title="Cost/User" value="€156" :trend="10" trendUnit="%" />
     </div>
 
-    <div v-if="loading" class="text-blue-600 font-medium">
-      Chargement des données en cours...
+    <div v-if="loading" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <Skeleton
+        v-for="i in 6"
+        :key="i"
+        class="rounded-2xl border border-slate-100 bg-white dark:border-slate-800 dark:bg-black"
+      />
     </div>
 
     <div
@@ -157,6 +161,7 @@ import { useAnalytics } from "../hooks/useAnalytics";
 import { CalendarDaysIcon } from "lucide-vue-next";
 import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import MetricCard from "../components/ui/card/MetricCard.vue";
+import Skeleton from "../components/ui/Skeleton.vue";
 import ToolRowActionsDropdown from "../components/ui/table/ToolRowActionsDropdown.vue";
 import router from "../router";
 

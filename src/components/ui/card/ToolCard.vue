@@ -12,7 +12,7 @@
         :id="`tool-${toolId}`"
         :checked="selectedToolIds.includes(String(toolId))"
         @change="toggleSelection"
-        class="w-5 h-5 rounded border-slate-300 text-black focus:ring-black"
+        class="w-5 h-5 appearance-none rounded border border-slate-300 bg-white dark:bg-black checked:bg-black dark:checked:bg-white checked:border-black dark:checked:border-white focus:outline-none cursor-pointer"
       />
     </div>
 

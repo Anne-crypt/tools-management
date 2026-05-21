@@ -35,7 +35,14 @@
       @cost-range-change="handleCostRangeChange"
       @category-change="handleCategoryChange"
     />
-    <div v-if="displayedTools.length === 0" class="mt-6 text-center py-12">
+    <div v-if="loading" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <Skeleton
+        v-for="i in 6"
+        :key="i"
+        class="rounded-2xl border border-slate-100 bg-white dark:border-slate-800 dark:bg-black"
+      />
+    </div>
+    <div v-else-if="displayedTools.length === 0" class="mt-6 text-center py-12">
       <p class="text-lg text-slate-500 dark:text-slate-400">Aucun tool trouvé</p>
     </div>
     <div v-else class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -67,10 +74,11 @@ import ToolCard from "../components/ui/card/ToolCard.vue";
 import { useDepartments } from "../hooks/useDepartments";
 import FiltersCard from "../components/ui/card/FiltersCard.vue";
 import ToolBulkActionsDropdown from "../components/ui/table/ToolBulkActionsDropdown.vue";
+import Skeleton from "../components/ui/Skeleton.vue";
 import type { Tool } from "../interfaces/tools";
 
 const router = useRouter();
-const { tools, fetchTools } = useTools();
+const { tools, loading, fetchTools } = useTools();
 const { departments, fetchDepartments } = useDepartments();
 const selectedDepartmentId = ref<number | string | "">("");
 const selectedStatus = ref<Tool["status"] | "">("");
