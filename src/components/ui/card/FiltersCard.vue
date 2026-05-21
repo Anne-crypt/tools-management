@@ -1,7 +1,7 @@
 <template>
   <div class="p-6">
     <h2 class="text-xl font-semibold mb-4">Filters</h2>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div>
         <label
           for="department"
@@ -47,6 +47,33 @@
           </button>
         </div>
       </div>
+<div>
+        <label class="block text-sm font-medium text-slate-700 mb-2">Monthly Cost</label>
+        <div class="space-y-2">
+          <input
+            v-model.number="costRange[0]"
+            type="range"
+            :min="0"
+            :max="costRange[1]"
+            step="100"
+            class="w-full accent-slate-700"
+            @change="emitCostRange"
+          />
+          <input
+            v-model.number="costRange[1]"
+            type="range"
+            :min="costRange[0]"
+            :max="10000"
+            step="100"
+            class="w-full accent-slate-700"
+            @change="emitCostRange"
+          />
+          <div class="flex items-center justify-between text-xs text-slate-600">
+            <span>€{{ costRange[0] }}</span>
+            <span>€{{ costRange[1] }}</span>
+          </div>
+        </div>
+      </div>
       <!-- Additional filters can be added here -->
     </div>
   </div>
@@ -65,10 +92,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "department-change", value: number | string | ""): void;
   (e: "status-change", value: Tool["status"] | ""): void;
+  (e: "cost-range-change", value: [number, number]): void;
 }>();
 
 const selectedDepartment = ref<number | string | "">("");
 const selectedStatus = ref<Tool["status"] | "">("");
+const costRange = ref<[number, number]>([0, 10000]);
 const statuses: Tool["status"][] = ["Active", "Expiring", "Unused"];
 
 function emitDepartment() {
@@ -78,5 +107,9 @@ function emitDepartment() {
 function setStatus(status: Tool["status"] | "") {
   selectedStatus.value = status;
   emit("status-change", status);
+}
+
+function emitCostRange() {
+  emit("cost-range-change", costRange.value);
 }
 </script>

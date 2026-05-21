@@ -4,6 +4,7 @@
       :departments="departments"
       @department-change="handleDepartmentChange"
       @status-change="handleStatusChange"
+      @cost-range-change="handleCostRangeChange"
     />
     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
       <ToolCard
@@ -34,6 +35,7 @@ const { tools, fetchTools } = useTools();
 const { departments, fetchDepartments } = useDepartments();
 const selectedDepartmentId = ref<number | string | "">("");
 const selectedStatus = ref<Tool["status"] | "">("");
+const costRange = ref<[number, number]>([0, 10000]);
 
 const displayedTools = computed(() => {
   let baseTools = tools.value;
@@ -51,11 +53,16 @@ const displayedTools = computed(() => {
   }
 
   // Filter by status
-  if (selectedStatus.value === "") {
-    return baseTools;
+  if (selectedStatus.value !== "") {
+    baseTools = baseTools.filter((tool) => tool.status === selectedStatus.value);
   }
 
-  return baseTools.filter((tool) => tool.status === selectedStatus.value);
+  // Filter by cost range
+  baseTools = baseTools.filter(
+    (tool) => tool.monthlyCost >= costRange.value[0] && tool.monthlyCost <= costRange.value[1],
+  );
+
+  return baseTools;
 });
 
 function handleDepartmentChange(departmentId: number | string | "") {
@@ -64,6 +71,10 @@ function handleDepartmentChange(departmentId: number | string | "") {
 
 function handleStatusChange(status: Tool["status"] | "") {
   selectedStatus.value = status;
+}
+
+function handleCostRangeChange(range: [number, number]) {
+  costRange.value = range;
 }
 
 onMounted(async () => {

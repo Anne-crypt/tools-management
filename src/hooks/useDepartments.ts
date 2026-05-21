@@ -1,14 +1,10 @@
 import { ref } from "vue";
 import { toolService } from "../api/api";
-import type { Tool } from "../interfaces/tools";
-import { mapApiToolToTool } from "../interfaces/tools";
 
 export interface DepartmentOption {
   id: number | string;
   name: string;
 }
-
-const toolsByDepartment = ref<Tool[]>([]);
 
 type DepartmentApiItem =
   | string
@@ -85,31 +81,11 @@ export function useDepartments() {
     }
   }
 
-  async function fetchToolsByDepartment(departmentId: number | string) {
-    loading.value = true;
-    try {
-      const response = await toolService.getToolsByDepartment(departmentId);
-      if (Array.isArray(response.data)) {
-        toolsByDepartment.value = response.data.map((tool: any) => mapApiToolToTool(tool));
-      } else {
-        toolsByDepartment.value = [];
-      }
-    } catch (error) {
-      console.error(
-        `Erreur lors du chargement des outils pour le département ${departmentId} :`,
-        error,
-      );
-      toolsByDepartment.value = [];
-    } finally {
-      loading.value = false;
-    }
-  }
+
 
   return {
-    toolsByDepartment,
     departments,
     loading,
     fetchDepartments,
-    fetchToolsByDepartment,
   };
 }
