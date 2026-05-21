@@ -73,14 +73,15 @@
           <tr
             v-for="tool in recentTools"
             :key="tool.id"
-            class="hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors duration-150"
+            class="relative cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors duration-150"
+            @click="toggleRow(tool.id)"
           >
             <td class="px-6 py-4">
               <div class="flex items-center gap-3">
                 <img
                   :src="tool.iconUrl || 'a'"
                   :alt="tool.name"
-                  class="w-8 h-8 rounded-lg object-contain bg-slate-50 dark:bg-black"
+                  class="w-7 h-7 object-contain"
                 />
                 <span class="font-semibold text-slate-900 dark:text-white">
                   {{ tool.name }}
@@ -100,6 +101,12 @@
             </td>
             <td class="px-6 py-4 text-right">
               <ToolStatus :status="tool.status" />
+              <ToolRowActionsDropdown
+                :open="selectedToolId === tool.id"
+                @view="handleView(tool.id)"
+                @edit="handleEdit(tool.id)"
+                @delete="handleDelete(tool.id)"
+              />
             </td>
           </tr>
         </tbody>
@@ -110,12 +117,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useTools } from "../hooks/useTools";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { CalendarDaysIcon } from "lucide-vue-next";
 import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import MetricCard from "../components/ui/card/MetricCard.vue";
+import ToolRowActionsDropdown from "../components/ui/table/ToolRowActionsDropdown.vue";
 
 // 1. On extrait directement ce dont on a besoin en déstructurant le hook
 const {
@@ -127,6 +135,23 @@ const {
   fetchActiveTools,
 } = useTools();
 const { fetchAnalytics } = useAnalytics();
+const selectedToolId = ref<number | null>(null)
+
+function toggleRow(toolId: number) {
+  selectedToolId.value = selectedToolId.value === toolId ? null : toolId
+}
+
+function handleView(toolId: number) {
+  console.log('view', toolId)
+}
+
+function handleEdit(toolId: number) {
+  console.log('edit', toolId)
+}
+
+function handleDelete(toolId: number) {
+  console.log('delete', toolId)
+}
 
 // 2. On lance l'appel au chargement
 onMounted(async () => {
