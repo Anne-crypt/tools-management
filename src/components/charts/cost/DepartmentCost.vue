@@ -1,6 +1,8 @@
 <template>
-      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Coût par département</h2>
-    <div class="h-64 w-full">
+  <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+    Coût par département
+  </h2>
+  <div class="h-64 w-full">
     <Doughnut :data="chartData" :options="chartOptions" />
   </div>
 </template>
@@ -8,12 +10,7 @@
 import { computed, ref } from "vue";
 import { Doughnut } from "vue-chartjs";
 import { getColorsFromCosts } from "../useCostColorScale";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -23,17 +20,20 @@ const props = defineProps<{
 
 const chartData = computed(() => {
   // Étape A : On regroupe les coûts par département dans un objet { "Marketing": 120, "Design": 450 }
-  const costsByDept = props.tools.reduce((acc, tool) => {
-    const dept = tool.ownerDepartment || "Inconnu";
-    const cost = tool.monthlyCost || 0;
+  const costsByDept = props.tools.reduce(
+    (acc, tool) => {
+      const dept = tool.ownerDepartment || "Inconnu";
+      const cost = tool.monthlyCost || 0;
 
-    if (!acc[dept]) {
-      acc[dept] = 0;
-    }
-    acc[dept] += cost;
+      if (!acc[dept]) {
+        acc[dept] = 0;
+      }
+      acc[dept] += cost;
 
-    return acc;
-  }, {} as Record<string, number>);
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
   // Étape B : On extrait les clés (les noms des départements) pour l'axe X / Légende
   const labels = Object.keys(costsByDept); // Ex: ["Development", "Design"]
 

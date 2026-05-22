@@ -18,7 +18,10 @@
       <MetricCard title="Cost/User" value="€156" :trend="10" trendUnit="%" />
     </div>
 
-    <div v-if="loading" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <div
+      v-if="loading"
+      class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+    >
       <Skeleton
         v-for="i in 6"
         :key="i"
@@ -173,6 +176,8 @@ import MetricCard from "../components/ui/card/MetricCard.vue";
 import Skeleton from "../components/ui/Skeleton.vue";
 import ToolRowActionsDropdown from "../components/ui/table/ToolRowActionsDropdown.vue";
 import { useFallbackEmoji } from "../hooks/useFallbackEmoji";
+import { useToolsSearch } from "../hooks/useToolsSearch";
+import type { Tool } from "../interfaces/tools";
 
 const router = useRouter();
 
@@ -192,9 +197,10 @@ const sortColumn = ref<"users" | "cost" | "status">("users");
 const sortDirection = ref<"asc" | "desc">("desc");
 const iconLoadFailedIds = ref<number[]>([]);
 const { getFallbackEmoji } = useFallbackEmoji();
+const { filteredTools } = useToolsSearch(recentTools);
 
-const sortedRecentTools = computed(() => {
-  return [...recentTools.value].sort((firstTool, secondTool) => {
+const sortedRecentTools = computed<Tool[]>(() => {
+  return [...filteredTools.value].sort((firstTool, secondTool) => {
     const comparison =
       sortColumn.value === "users"
         ? (firstTool.activeUsersCount ?? 0) - (secondTool.activeUsersCount ?? 0)

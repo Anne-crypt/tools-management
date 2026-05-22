@@ -7,11 +7,11 @@ export const costColorStops = [
 ] as const;
 
 export const adoptionColorStops = [
-  { offset: 0, color: "#ef4444" },      // Rouge (0% adoption)
-  { offset: 0.25, color: "#f59e0b" },   // Orange
-  { offset: 0.5, color: "#6366f1" },    // Indigo
-  { offset: 0.75, color: "#14b8a6" },   // Teal
-  { offset: 1, color: "#22c55e" },      // Vert (100% adoption)
+  { offset: 0, color: "#ef4444" }, // Rouge (0% adoption)
+  { offset: 0.25, color: "#f59e0b" }, // Orange
+  { offset: 0.5, color: "#6366f1" }, // Indigo
+  { offset: 0.75, color: "#14b8a6" }, // Teal
+  { offset: 1, color: "#22c55e" }, // Vert (100% adoption)
 ] as const;
 
 function hexToRgb(hex: string) {
@@ -41,7 +41,8 @@ export function getColorFromCost(cost: number, maxCost: number) {
     const next = costColorStops[i + 1];
 
     if (ratio >= current.offset && ratio <= next.offset) {
-      const localFactor = (ratio - current.offset) / (next.offset - current.offset);
+      const localFactor =
+        (ratio - current.offset) / (next.offset - current.offset);
       return interpolateColor(current.color, next.color, localFactor);
     }
   }
@@ -63,7 +64,8 @@ export function getColorFromAdoption(adoption: number) {
     const next = adoptionColorStops[i + 1];
 
     if (ratio >= current.offset && ratio <= next.offset) {
-      const localFactor = (ratio - current.offset) / (next.offset - current.offset);
+      const localFactor =
+        (ratio - current.offset) / (next.offset - current.offset);
       return interpolateColor(current.color, next.color, localFactor);
     }
   }

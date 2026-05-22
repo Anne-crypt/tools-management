@@ -1,13 +1,15 @@
 <template>
-      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Taux d'adoption des outils (6 premiers)</h2>
+  <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+    Taux d'adoption des outils (6 premiers)
+  </h2>
   <div class="h-72 w-full">
     <Bar :data="chartDataTop" :options="chartOptions" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Bar } from 'vue-chartjs';
+import { computed } from "vue";
+import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,14 +17,21 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
-} from 'chart.js';
-import { getColorsFromAdoption } from '../useCostColorScale';
+  Legend,
+} from "chart.js";
+import { getColorsFromAdoption } from "../useCostColorScale";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 const props = defineProps<{
-  tools: Array<{ name: string; activeUsersCount: number }>;
+  tools: Array<{ name: string; activeUsersCount: number | null }>;
   activeUsers: number;
 }>();
 
@@ -31,10 +40,10 @@ const chartData = computed(() => {
 
   // Créer un array avec les outils et leurs taux d'adoption
   const toolsWithAdoption = props.tools
-    .filter(t => Number.isFinite(t.activeUsersCount))
-    .map(t => ({
+    .filter((t) => Number.isFinite(t.activeUsersCount ?? 0))
+    .map((t) => ({
       name: t.name,
-      adoption: (t.activeUsersCount / totalActiveUsers) * 100
+      adoption: ((t.activeUsersCount ?? 0) / totalActiveUsers) * 100,
     }));
 
   // Trier par taux d'adoption (du plus bas au plus élevé)
@@ -42,8 +51,8 @@ const chartData = computed(() => {
 
   // Top 6 (les plus élevés)
   const topTools = sorted.slice(-6).reverse();
-  const topLabels = topTools.map(t => t.name);
-  const topRates = topTools.map(t => t.adoption);
+  const topLabels = topTools.map((t) => t.name);
+  const topRates = topTools.map((t) => t.adoption);
   const topColors = getColorsFromAdoption(topRates);
 
   return {
@@ -51,15 +60,15 @@ const chartData = computed(() => {
       labels: topLabels,
       datasets: [
         {
-          label: 'Meilleurs taux d\'adoption (%)',
+          label: "Meilleurs taux d'adoption (%)",
           backgroundColor: topColors,
           borderColor: topColors,
           borderWidth: 1,
           borderRadius: 4,
-          data: topRates
-        }
-      ]
-    }
+          data: topRates,
+        },
+      ],
+    },
   };
 });
 
@@ -76,31 +85,31 @@ const chartOptions = computed(() => ({
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'top' as const
+      position: "top" as const,
     },
     tooltip: {
       callbacks: {
-        label: function(context: any) {
+        label: function (context: any) {
           const rate = context.parsed.y.toFixed(1);
           return ` Adoption: ${rate}%`;
-        }
-      }
-    }
+        },
+      },
+    },
   },
   scales: {
     y: {
       beginAtZero: true,
       suggestedMax: yAxisMax.value,
       ticks: {
-        callback: function(value: any) {
-          return value + '%';
-        }
+        callback: function (value: any) {
+          return value + "%";
+        },
       },
       title: {
         display: true,
-        text: 'Taux d\'adoption (%)'
-      }
-    }
-  }
+        text: "Taux d'adoption (%)",
+      },
+    },
+  },
 }));
 </script>

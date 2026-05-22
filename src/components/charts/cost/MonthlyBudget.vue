@@ -1,10 +1,9 @@
 <template>
-  <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Budget mensuel</h2>
+  <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+    Budget mensuel
+  </h2>
   <div class="h-64 w-full">
-    <Line
-      :data="chartData"
-      :options="chartOptions"
-    />
+    <Line :data="chartData" :options="chartOptions" />
   </div>
 </template>
 
@@ -22,7 +21,15 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 ChartJS.register(
   CategoryScale,
@@ -31,9 +38,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
-
 
 const props = defineProps<{
   overview: {
@@ -41,7 +47,6 @@ const props = defineProps<{
     currentMonthTotal: number;
   };
 }>();
-
 
 // 1. Les données du graphique (labels = axe X, datasets = axe Y)
 const chartData = computed(() => ({
@@ -51,7 +56,10 @@ const chartData = computed(() => ({
       label: "Budget (EUR)",
       backgroundColor: "#f59e0b",
       borderColor: "#f59e0b",
-      data: [props.overview.previousMonthTotal, props.overview.currentMonthTotal],
+      data: [
+        props.overview.previousMonthTotal,
+        props.overview.currentMonthTotal,
+      ],
     },
   ],
 }));
@@ -61,5 +69,4 @@ const chartOptions = ref({
   responsive: true,
   maintainAspectRatio: false,
 });
-
 </script>

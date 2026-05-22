@@ -1,10 +1,14 @@
 <template>
-  <div class="relative flex items-center overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-black transition-all duration-300">
+  <div
+    class="relative flex items-center overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-black transition-all duration-300"
+  >
     <!-- zone checkbox -->
     <div
       :class="[
         'flex items-center justify-center transition-all duration-300 ease-in-out bg-slate-50 dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 shrink-0',
-        multiSelectMode ? 'w-14 opacity-100' : 'w-0 opacity-0 pointer-events-none'
+        multiSelectMode
+          ? 'w-14 opacity-100'
+          : 'w-0 opacity-0 pointer-events-none',
       ]"
     >
       <input
@@ -38,7 +42,9 @@
           </div>
 
           <div class="min-w-0">
-            <h3 class="truncate text-sm font-semibold text-slate-900 dark:text-white">
+            <h3
+              class="truncate text-sm font-semibold text-slate-900 dark:text-white"
+            >
               {{ toolName }}
             </h3>
             <p class="text-xs text-slate-500 dark:text-slate-400">
@@ -68,8 +74,8 @@
 
 <script setup lang="ts">
 import ToolStatus from "../badge/ToolStatus.vue";
-import { computed, ref } from 'vue';
-import { useFallbackEmoji } from '../../../hooks/useFallbackEmoji';
+import { computed, ref } from "vue";
+import { useFallbackEmoji } from "../../../hooks/useFallbackEmoji";
 
 const {
   toolId,

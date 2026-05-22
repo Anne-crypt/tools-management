@@ -3,7 +3,6 @@ import { analyticsService } from "../api/api";
 import type { Analytics } from "../interfaces/analytics";
 import { mapApiAnalyticsToAnalytics } from "../interfaces/analytics";
 
-
 export function useAnalytics() {
   const analytics = ref<Analytics | null>(null);
   const loading = ref(false);

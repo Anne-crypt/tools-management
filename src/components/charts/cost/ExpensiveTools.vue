@@ -1,5 +1,7 @@
 <template>
-      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Outils les plus chers</h2>
+  <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+    Outils les plus chers
+  </h2>
   <div class="h-64 w-full">
     <Bar :data="chartData" :options="chartOptions" />
   </div>
@@ -20,7 +22,14 @@ import {
 import { getColorsFromCosts } from "../useCostColorScale";
 
 // Enregistrement des composants requis pour le graphique en barres
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 const props = defineProps<{
   tools: Array<{
@@ -32,7 +41,9 @@ const props = defineProps<{
 // Extraction et tri des outils les plus chers
 const chartData = computed(() => {
   // 1. On trie les outils du plus cher au moins cher (ordre décroissant)
-  const sortedTools = [...props.tools].sort((a, b) => b.monthlyCost - a.monthlyCost);
+  const sortedTools = [...props.tools].sort(
+    (a, b) => b.monthlyCost - a.monthlyCost,
+  );
 
   // 2. On ne garde que les 5 premiers (le "Top 5")
   const topTools = sortedTools.slice(0, 5);

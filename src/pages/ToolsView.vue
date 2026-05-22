@@ -9,15 +9,20 @@
     <button
       class="mb-6 ml-4 inline-block rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:border-slate-700 dark:bg-black dark:text-white dark:hover:bg-slate-800"
       @click="handleMultiSelect"
-      >
+    >
       Select Multiple Tools
     </button>
-    <div v-if="selectedToolIds.length > 0" class="relative mb-6 ml-4 inline-block">
+    <div
+      v-if="selectedToolIds.length > 0"
+      class="relative mb-6 ml-4 inline-block"
+    >
       <button
         class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:border-slate-700 dark:bg-black dark:text-white dark:hover:bg-slate-800"
         @click="bulkActionsOpen = !bulkActionsOpen"
       >
-        Actions ({{ selectedToolIds.length }} sélectionné{{ selectedToolIds.length > 1 ? 's' : '' }})
+        Actions ({{ selectedToolIds.length }} sélectionné{{
+          selectedToolIds.length > 1 ? "s" : ""
+        }})
       </button>
       <ToolBulkActionsDropdown
         :open="bulkActionsOpen"
@@ -35,7 +40,10 @@
       @cost-range-change="handleCostRangeChange"
       @category-change="handleCategoryChange"
     />
-    <div v-if="loading" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <div
+      v-if="loading"
+      class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+    >
       <Skeleton
         v-for="i in 6"
         :key="i"
@@ -43,9 +51,14 @@
       />
     </div>
     <div v-else-if="displayedTools.length === 0" class="mt-6 text-center py-12">
-      <p class="text-lg text-slate-500 dark:text-slate-400">Aucun tool trouvé</p>
+      <p class="text-lg text-slate-500 dark:text-slate-400">
+        Aucun tool trouvé
+      </p>
     </div>
-    <div v-else class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <div
+      v-else
+      class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+    >
       <ToolCard
         v-for="tool in displayedTools"
         :key="tool.id"
@@ -56,7 +69,7 @@
         :description="tool.description"
         :category="tool.category"
         :status="tool.status"
-        :activeUsersCount="tool.activeUsersCount"
+        :activeUsersCount="tool.activeUsersCount ?? 0"
         :monthlyCost="tool.monthlyCost"
         :multiSelectMode="multiSelectMode"
         @select="handleToolSelect"
@@ -75,6 +88,7 @@ import { useDepartments } from "../hooks/useDepartments";
 import FiltersCard from "../components/ui/card/FiltersCard.vue";
 import ToolBulkActionsDropdown from "../components/ui/table/ToolBulkActionsDropdown.vue";
 import Skeleton from "../components/ui/Skeleton.vue";
+import { useToolsSearch } from "../hooks/useToolsSearch";
 import type { Tool } from "../interfaces/tools";
 
 const router = useRouter();
@@ -88,6 +102,7 @@ const selectedToolId = ref<number | null>(null);
 const multiSelectMode = ref(false);
 const selectedToolIds = ref<number[]>([]);
 const bulkActionsOpen = ref(false);
+const { filteredTools } = useToolsSearch(tools);
 
 const uniqueCategories = computed(() => {
   const categories = new Set(tools.value.map((tool) => tool.category));
@@ -95,7 +110,8 @@ const uniqueCategories = computed(() => {
 });
 
 const displayedTools = computed(() => {
-  let baseTools = tools.value;
+  // Start from search results (or all tools when search is empty).
+  let baseTools = filteredTools.value;
 
   // Filter by department
   if (selectedDepartmentId.value !== "") {
@@ -111,20 +127,24 @@ const displayedTools = computed(() => {
 
   // Filter by status
   if (selectedStatus.value !== "") {
-    baseTools = baseTools.filter((tool) => tool.status === selectedStatus.value);
+    baseTools = baseTools.filter(
+      (tool) => tool.status === selectedStatus.value,
+    );
   }
 
   // Filter by cost range
   baseTools = baseTools.filter(
-    (tool) => tool.monthlyCost >= costRange.value[0] && tool.monthlyCost <= costRange.value[1],
+    (tool) =>
+      tool.monthlyCost >= costRange.value[0] &&
+      tool.monthlyCost <= costRange.value[1],
   );
 
   // Filter by category
   if (selectedCategory.value !== "") {
-    baseTools = baseTools.filter((tool) => tool.category === selectedCategory.value);
+    baseTools = baseTools.filter(
+      (tool) => tool.category === selectedCategory.value,
+    );
   }
-
-
 
   return baseTools;
 });
@@ -162,7 +182,6 @@ function handleMultiSelect() {
 
 function handleToggleSelection(toolId: number) {
   // Vérifie si le tool est déjà dans la liste
-  console.log("######", toolId);
   const isSelected = selectedToolIds.value.includes(toolId);
 
   if (isSelected) {

@@ -101,23 +101,25 @@ import { MenuIcon, XIcon, ZapIcon } from "lucide-vue-next";
 const route = useRoute();
 const mobileMenuOpen = ref(false);
 
-const activeNav = computed<"Dashboard" | "Tools" | "Analytics" | "Settings">(() => {
-  if (route.name === "analytics") return "Analytics";
-  if (
-    route.name === "tools" ||
-    route.name === "tool-details" ||
-    route.name === "edit-tool" ||
-    route.name === "new-tool"
-  ) {
-    return "Tools";
-  }
+const activeNav = computed<"Dashboard" | "Tools" | "Analytics" | "Settings">(
+  () => {
+    if (route.name === "analytics") return "Analytics";
+    if (
+      route.name === "tools" ||
+      route.name === "tool-details" ||
+      route.name === "edit-tool" ||
+      route.name === "new-tool"
+    ) {
+      return "Tools";
+    }
 
-  if (route.path === "/settings") {
-    return "Settings";
-  }
+    if (route.path === "/settings") {
+      return "Settings";
+    }
 
-  return "Dashboard";
-});
+    return "Dashboard";
+  },
+);
 
 const navItems = computed(() => [
   { to: "/", label: "Dashboard", isActive: activeNav.value === "Dashboard" },
