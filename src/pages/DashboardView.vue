@@ -10,7 +10,6 @@
       />
 
       <MetricCard title="Active Tools" value="147" :trend="12" trendUnit="%">
-        <!-- :value="activeToolsCount" -->
       </MetricCard>
 
       <MetricCard title="Departments" value="8" :trend="2" trendUnit="%" />

@@ -8,13 +8,22 @@
     </h2>
     <div v-if="hasCostSections" class="mx-auto w-full max-w-5xl px-2 md:px-4">
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div v-if="isVisible('monthly-budget')" class="w-full max-w-2xl mx-auto">
+        <div
+          v-if="isVisible('monthly-budget')"
+          class="w-full max-w-2xl mx-auto"
+        >
           <MonthlyBudget :overview="overview" />
         </div>
-        <div v-if="isVisible('department-cost')" class="w-full max-w-2xl mx-auto">
+        <div
+          v-if="isVisible('department-cost')"
+          class="w-full max-w-2xl mx-auto"
+        >
           <DepartmentCost :tools="tools" />
         </div>
-        <div v-if="isVisible('expensive-tools')" class="w-full max-w-2xl mx-auto lg:col-span-2">
+        <div
+          v-if="isVisible('expensive-tools')"
+          class="w-full max-w-2xl mx-auto lg:col-span-2"
+        >
           <ExpensiveTools :tools="tools" />
         </div>
       </div>
@@ -26,7 +35,10 @@
     >
       Usage
     </h2>
-    <div v-if="hasUsageSections" class="mx-auto w-full max-w-5xl px-2 md:px-4 space-y-6">
+    <div
+      v-if="hasUsageSections"
+      class="mx-auto w-full max-w-5xl px-2 md:px-4 space-y-6"
+    >
       <div v-if="isVisible('adoption-rates')" class="w-full max-w-4xl mx-auto">
         <AdoptionRates
           :tools="tools"
@@ -36,7 +48,10 @@
       <div v-if="isVisible('usage-tool')" class="w-full max-w-4xl mx-auto">
         <UsageTool :tools="tools" />
       </div>
-      <div v-if="isVisible('department-activity')" class="w-full max-w-4xl mx-auto">
+      <div
+        v-if="isVisible('department-activity')"
+        class="w-full max-w-4xl mx-auto"
+      >
         <DepartmentActivity :tools="tools" />
       </div>
       <div v-if="isVisible('tool-timeline')" class="w-full max-w-4xl mx-auto">
@@ -44,7 +59,10 @@
       </div>
     </div>
 
-    <div v-if="!hasResults" class="mt-8 text-center text-slate-500 dark:text-slate-400">
+    <div
+      v-if="!hasResults"
+      class="mt-8 text-center text-slate-500 dark:text-slate-400"
+    >
       Aucun bloc analytics ne correspond a la recherche.
     </div>
   </div>
