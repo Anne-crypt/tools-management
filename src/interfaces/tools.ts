@@ -9,7 +9,7 @@ export interface Tool {
   ownerDepartment: string;
   status: "Active" | "Expiring" | "Unused";
   websiteUrl?: string;
-  activeUsersCount: number;
+  activeUsersCount: number | null;
   iconUrl: string;
   createdAt: string;
   updatedAt: string;

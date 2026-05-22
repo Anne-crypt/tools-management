@@ -116,10 +116,18 @@
             <td class="px-6 py-4">
               <div class="flex items-center gap-3">
                 <img
-                  :src="tool.iconUrl || 'a'"
+                  v-if="tool.iconUrl && !hasIconFailed(tool.id)"
+                  :src="tool.iconUrl"
                   :alt="tool.name"
                   class="w-7 h-7 object-contain"
+                  @error="markIconFailed(tool.id)"
                 />
+                <div
+                  v-else
+                  class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-sm dark:bg-slate-800"
+                >
+                  {{ getFallbackEmoji(tool.id) }}
+                </div>
                 <span class="font-semibold text-slate-900 dark:text-white">
                   {{ tool.name }}
                 </span>
@@ -164,6 +172,7 @@ import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import MetricCard from "../components/ui/card/MetricCard.vue";
 import Skeleton from "../components/ui/Skeleton.vue";
 import ToolRowActionsDropdown from "../components/ui/table/ToolRowActionsDropdown.vue";
+import { useFallbackEmoji } from "../hooks/useFallbackEmoji";
 
 const router = useRouter();
 
@@ -181,12 +190,14 @@ const { fetchAnalytics } = useAnalytics();
 const selectedToolId = ref<number | null>(null);
 const sortColumn = ref<"users" | "cost" | "status">("users");
 const sortDirection = ref<"asc" | "desc">("desc");
+const iconLoadFailedIds = ref<number[]>([]);
+const { getFallbackEmoji } = useFallbackEmoji();
 
 const sortedRecentTools = computed(() => {
   return [...recentTools.value].sort((firstTool, secondTool) => {
     const comparison =
       sortColumn.value === "users"
-        ? firstTool.activeUsersCount - secondTool.activeUsersCount
+        ? (firstTool.activeUsersCount ?? 0) - (secondTool.activeUsersCount ?? 0)
         : sortColumn.value === "cost"
           ? firstTool.monthlyCost - secondTool.monthlyCost
           : firstTool.status.localeCompare(secondTool.status);
@@ -197,6 +208,16 @@ const sortedRecentTools = computed(() => {
 
 function toggleRow(toolId: number) {
   selectedToolId.value = selectedToolId.value === toolId ? null : toolId;
+}
+
+function hasIconFailed(toolId: number) {
+  return iconLoadFailedIds.value.includes(toolId);
+}
+
+function markIconFailed(toolId: number) {
+  if (!hasIconFailed(toolId)) {
+    iconLoadFailedIds.value = [...iconLoadFailedIds.value, toolId];
+  }
 }
 
 function toggleSort(column: "users" | "cost" | "status") {

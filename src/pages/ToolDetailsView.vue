@@ -21,11 +21,18 @@
       <div class="mb-6 flex items-center justify-between gap-4">
         <div class="flex min-w-0 items-center gap-3">
           <img
-            v-if="tool.iconUrl"
+            v-if="tool.iconUrl && !iconLoadFailed"
             :src="tool.iconUrl"
             :alt="tool.name"
             class="h-10 w-10 shrink-0 object-contain"
+            @error="iconLoadFailed = true"
           />
+          <div
+            v-else
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-lg dark:bg-slate-800"
+          >
+            {{ fallbackEmoji }}
+          </div>
           <div>
             <h2
               class="truncate text-xl font-semibold text-slate-900 dark:text-white"
@@ -137,19 +144,22 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { PencilIcon } from "lucide-vue-next";
 import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import { toolService } from "../api/api";
 import type { Tool } from "../interfaces/tools";
 import { mapApiToolToTool } from "../interfaces/tools";
+import { useFallbackEmoji } from "../hooks/useFallbackEmoji";
 
 const route = useRoute();
 const router = useRouter();
 const tool = ref<Tool | null>(null);
 const loading = ref(false);
 const errorMessage = ref("");
+const iconLoadFailed = ref(false);
+const { getFallbackEmoji } = useFallbackEmoji();
 
 function formatDate(value: string) {
   const date = new Date(value);
@@ -165,6 +175,7 @@ function formatDate(value: string) {
 async function fetchToolDetails() {
   loading.value = true;
   errorMessage.value = "";
+  iconLoadFailed.value = false;
 
   try {
     const id = route.params.id;
@@ -181,6 +192,14 @@ async function fetchToolDetails() {
     loading.value = false;
   }
 }
+
+const fallbackEmoji = computed(() => {
+  if (!tool.value) {
+    return "•";
+  }
+
+  return getFallbackEmoji(tool.value.id);
+});
 
 onMounted(fetchToolDetails);
 </script>

@@ -30,6 +30,9 @@
       <div class="w-full max-w-4xl mx-auto">
         <DepartmentActivity :tools="tools" />
       </div>
+      <div class="w-full max-w-4xl mx-auto">
+        <ToolTimeline :tools="tools" @select="handleRouterPush" />
+      </div>
     </div>
 
     <h2 class="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
@@ -48,6 +51,11 @@ import ExpensiveTools from "../components/charts/cost/ExpensiveTools.vue";
 import AdoptionRates from "../components/charts/usage/AdoptionRates.vue";
 import UsageTool from "../components/charts/usage/UsageTool.vue";
 import DepartmentActivity from "../components/charts/usage/DepartmentActivity.vue";
+import ToolTimeline from "../components/charts/usage/ToolTimeline.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
 const { analytics, fetchAnalytics } = useAnalytics();
 const { tools, fetchTools } = useTools();
 
@@ -57,6 +65,10 @@ const overview = computed(() =>
     currentMonthTotal: 0,
   },
 );
+
+function handleRouterPush(toolId: number) {
+  router.push({ name: 'tool-details', params: { id: toolId } });
+}
 
 onMounted(async () => {
   await fetchAnalytics();

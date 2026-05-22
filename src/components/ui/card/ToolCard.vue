@@ -24,12 +24,18 @@
       <div class="mb-4 flex items-start justify-between gap-3">
         <div class="flex min-w-0 items-center gap-3">
           <img
-            v-if="toolIcon"
+            v-if="toolIcon && !iconLoadFailed"
             :src="toolIcon"
             :alt="toolName"
             class="h-8 w-8 shrink-0 object-contain"
+            @error="iconLoadFailed = true"
           />
-          <div v-else class="h-8 w-8 shrink-0 rounded-lg bg-slate-100 dark:bg-slate-800" />
+          <div
+            v-else
+            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-sm dark:bg-slate-800"
+          >
+            {{ fallbackEmoji }}
+          </div>
 
           <div class="min-w-0">
             <h3 class="truncate text-sm font-semibold text-slate-900 dark:text-white">
@@ -62,11 +68,13 @@
 
 <script setup lang="ts">
 import ToolStatus from "../badge/ToolStatus.vue";
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useFallbackEmoji } from '../../../hooks/useFallbackEmoji';
 
 const {
   toolId,
   toolIcon,
+  toolEmoji,
   toolName,
   description,
   category,
@@ -77,6 +85,7 @@ const {
 } = defineProps<{
   toolId: number;
   toolIcon: string;
+  toolEmoji?: string;
   toolName: string;
   description: string;
   category: string;
@@ -87,6 +96,10 @@ const {
 }>();
 
 const selectedToolIds = ref<string[]>([]);
+const iconLoadFailed = ref(false);
+const { getFallbackEmoji } = useFallbackEmoji();
+
+const fallbackEmoji = computed(() => toolEmoji ?? getFallbackEmoji(toolId));
 
 const emit = defineEmits<{
   (e: "select", toolId: number): void;
