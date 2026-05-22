@@ -45,6 +45,12 @@ export const toolService = {
   },
 
   // 3. Récupérer les données analytiques globales du budget
+  // getBudgetAnalytics() {
+  //   return api.get("/analytics");
+  // },
+};
+
+export const analyticsService = {
   getBudgetAnalytics() {
     return api.get("/analytics");
   },

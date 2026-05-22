@@ -1,15 +1,18 @@
 import { ref } from "vue";
-import { toolService } from "../api/api";
+import { analyticsService } from "../api/api";
+import type { Analytics } from "../interfaces/analytics";
+import { mapApiAnalyticsToAnalytics } from "../interfaces/analytics";
+
 
 export function useAnalytics() {
-  const analytics = ref(null);
+  const analytics = ref<Analytics | null>(null);
   const loading = ref(false);
 
   async function fetchAnalytics() {
     loading.value = true;
     try {
-      const response = await toolService.getBudgetAnalytics();
-      analytics.value = response.data;
+      const response = await analyticsService.getBudgetAnalytics();
+      analytics.value = mapApiAnalyticsToAnalytics(response.data);
     } catch (error) {
       console.error(
         "Erreur lors du chargement des données analytiques :",
@@ -21,6 +24,8 @@ export function useAnalytics() {
   }
 
   return {
+    analytics,
+    loading,
     fetchAnalytics,
   };
 }

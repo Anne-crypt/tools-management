@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 max-w-4xl mx-auto">
+  <div class="p-6 mx-auto">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <MetricCard
         title="Monthly Budget"
@@ -132,7 +132,7 @@
                 {{ tool.category }}
               </span>
             </td>
-            <td class="px-6 py-4">{{ tool.usersCount }}</td>
+            <td class="px-6 py-4">{{ tool.activeUsersCount }}</td>
             <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">
               €{{ tool.monthlyCost }}
             </td>
@@ -156,6 +156,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useTools } from "../hooks/useTools";
 import { useAnalytics } from "../hooks/useAnalytics";
 import { CalendarDaysIcon } from "lucide-vue-next";
@@ -163,7 +164,8 @@ import ToolStatus from "../components/ui/badge/ToolStatus.vue";
 import MetricCard from "../components/ui/card/MetricCard.vue";
 import Skeleton from "../components/ui/Skeleton.vue";
 import ToolRowActionsDropdown from "../components/ui/table/ToolRowActionsDropdown.vue";
-import router from "../router";
+
+const router = useRouter();
 
 // 1. On extrait directement ce dont on a besoin en déstructurant le hook
 const {
@@ -184,7 +186,7 @@ const sortedRecentTools = computed(() => {
   return [...recentTools.value].sort((firstTool, secondTool) => {
     const comparison =
       sortColumn.value === "users"
-        ? firstTool.usersCount - secondTool.usersCount
+        ? firstTool.activeUsersCount - secondTool.activeUsersCount
         : sortColumn.value === "cost"
           ? firstTool.monthlyCost - secondTool.monthlyCost
           : firstTool.status.localeCompare(secondTool.status);
