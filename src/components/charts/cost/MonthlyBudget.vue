@@ -1,4 +1,5 @@
 <template>
+  <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Budget mensuel</h2>
   <div class="h-64 w-full">
     <Line
       :data="chartData"

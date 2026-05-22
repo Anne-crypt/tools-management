@@ -1,4 +1,5 @@
 <template>
+      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Taux d'adoption des outils (6 premiers)</h2>
   <div class="h-72 w-full">
     <Bar :data="chartDataTop" :options="chartOptions" />
   </div>

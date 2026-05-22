@@ -1,6 +1,6 @@
 <template>
+      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Outils les plus chers</h2>
   <div class="h-64 w-full">
-    <!-- Pour des barres, on utilise le composant Bar de vue-chartjs -->
     <Bar :data="chartData" :options="chartOptions" />
   </div>
 </template>

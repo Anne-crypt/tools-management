@@ -1,4 +1,5 @@
 <template>
+      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Outils les plus et les moins utilisés</h2>
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <div class="h-72 w-full">
       <Bar :data="chartData1" :options="chartOptions" />

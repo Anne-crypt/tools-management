@@ -1,6 +1,6 @@
 <template>
+      <h2 class="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Coût par département</h2>
     <div class="h-64 w-full">
-    <!-- On utilise le composant Doughnut importé de vue-chartjs -->
     <Doughnut :data="chartData" :options="chartOptions" />
   </div>
 </template>
