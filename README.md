@@ -116,6 +116,8 @@ Limites identifiées :
 
 Store global
 
+ERATUM : store global pour user aurait dû être mis en place
+
 L’implémentation d’un store global pour les tools a été envisagée tardivement (avec pinia).
 Cela explique certaines parties du code plus locales qu’idéales.
 
@@ -202,7 +204,7 @@ Produit
 - dashboard personnalisable
 
 Technique
-- store global centralisé --> je l'ai fait tardivement pour Tool, ce qui explique ce code
+- store global centralisé --> je l'ai fait tardivement pour Tool, au lieu de user. je me suis trompée
 - API réelle
 - cache serveur
 - tests + nombreux et robustes
